@@ -4,48 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-public class TreeNode
-{
-    public int value;
-    public TreeNode left;
-    public TreeNode right;
-
-    public TreeNode(int val)
-    {
-        this.value = val;
-        left = null;
-        right = null;
-    }
-
-}
-
-
-public class ListDoubleNode
-{
-    public int value;
-    public ListDoubleNode pre;
-    public ListDoubleNode next;
-
-    public ListDoubleNode(int val)
-    {
-        value = val;
-        pre = null;
-        next = null;
-    }
-
-}
-
-public class ListNode
-{
-    public int value;
-    public ListNode next;
-
-    public ListNode(int val)
-    {
-        this.value = val;
-        next = null;
-    }
-}
+#region 拓展方法
 
 public static class PracticeHelper
 {
@@ -100,6 +59,28 @@ public static class PracticeHelper
 
         node = nodeList[0];
         return node;
+    }
+
+    public static void Print(this ListRandomNode node)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        if (node == null)
+        {
+            Debug.Log(null);
+            return;
+        }
+
+        while (node != null)
+        {
+            sb.Append(node.value).Append("(").Append(node.rand == null ? "Null" : node.rand.value.ToString()).Append(")").Append("->");
+            node = node.next;
+        }
+
+        sb.Append("Null");
+
+        Debug.Log(sb);
+
     }
 
     public static void Print(this ListNode node)
@@ -248,3 +229,65 @@ public static class PracticeHelper
     }
 }
 
+#endregion
+
+#region 数据结构
+
+public class TreeNode
+{
+    public int value;
+    public TreeNode left;
+    public TreeNode right;
+
+    public TreeNode(int val)
+    {
+        this.value = val;
+        left = null;
+        right = null;
+    }
+
+}
+
+
+public class ListDoubleNode
+{
+    public int value;
+    public ListDoubleNode pre;
+    public ListDoubleNode next;
+
+    public ListDoubleNode(int val)
+    {
+        value = val;
+        pre = null;
+        next = null;
+    }
+
+}
+
+public class ListNode
+{
+    public int value;
+    public ListNode next;
+
+    public ListNode(int val)
+    {
+        this.value = val;
+        next = null;
+    }
+}
+
+public class ListRandomNode
+{
+    public int value;
+    public ListRandomNode next;
+    public ListRandomNode rand;
+
+    public ListRandomNode(int val)
+    {
+        this.value = val;
+        next = null;
+        rand = null;
+    }
+}
+
+#endregion
