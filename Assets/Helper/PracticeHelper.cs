@@ -8,6 +8,47 @@ using UnityEngine;
 
 public static class PracticeHelper
 {
+
+    public static ListNode ToListNodeWithCircle(this List<int> list, int index)
+    {
+        ListNode node = null;
+
+        if (list.Count == 0)
+        {
+            return node;
+        }
+
+        if (index > list.Count - 1)
+        {
+            Debug.LogError("Can't convert to a List with circle ! ! !");
+            return null;
+        }
+
+        ListNode circleNode = null;
+
+        List<ListNode> nodeList = new List<ListNode>();
+        for (int i = 0; i < list.Count; i++)
+        {
+            ListNode temp = new ListNode(list[i]);
+            nodeList.Add(temp);
+
+            if (i == index)
+                circleNode = temp;
+
+        }
+
+        for (int i = 0; i < nodeList.Count - 1; i++)
+        {
+            nodeList[i].next = nodeList[i + 1];
+        }
+
+        node = nodeList[0];
+
+        nodeList[nodeList.Count - 1].next = circleNode;
+
+        return node;
+    }
+
     public static ListNode ToCircleListNode(this List<int> list)
     {
         ListNode node = null;
@@ -87,26 +128,27 @@ public static class PracticeHelper
     {
         StringBuilder sb = new StringBuilder();
 
-        ListNode temp = node;
-
         if (node == null)
         {
             Debug.Log(node);
             return;
         }
 
+        List<ListNode> visitedNodeList = new List<ListNode>();
+
         while (node != null)
         {
             sb.Append(node.value).Append("->");
+            visitedNodeList.Add(node);
+
             node = node.next;
 
-            if (node == temp)
+            if (visitedNodeList.Contains(node))
             {
-                sb.Append(string.Format("({0})", temp.value));
+                sb.Append(string.Format("({0})", node.value));
                 Debug.Log(sb);
                 return;
             }
-
         }
 
         sb.Append("Null");
@@ -273,6 +315,11 @@ public class ListNode
     {
         this.value = val;
         next = null;
+    }
+
+    public override string ToString()
+    {
+        return value.ToString();
     }
 }
 
