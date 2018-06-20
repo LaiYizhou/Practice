@@ -157,6 +157,39 @@ public static class PracticeHelper
 
     }
 
+    public static void Print(this ListDoubleNode node)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        if (node == null)
+        {
+            Debug.Log(node);
+            return;
+        }
+
+        List<ListDoubleNode> visitedNodeList = new List<ListDoubleNode>();
+
+        while (node != null)
+        {
+            sb.Append(node.value).Append("<->");
+            visitedNodeList.Add(node);
+
+            node = node.next;
+
+            if (visitedNodeList.Contains(node))
+            {
+                sb.Append(string.Format("({0})", node.value));
+                Debug.Log(sb);
+                return;
+            }
+        }
+
+        sb.Append("Null");
+
+        Debug.Log(sb);
+
+    }
+
     public static void Print<T1, T2>(this Dictionary<T1, T2> dictionary)
     {
         StringBuilder sb = new StringBuilder();
@@ -286,6 +319,12 @@ public class TreeNode
         this.value = val;
         left = null;
         right = null;
+    }
+
+    public void SetLeftAndRight(TreeNode left, TreeNode right)
+    {
+        this.left = left;
+        this.right = right;
     }
 
 }
