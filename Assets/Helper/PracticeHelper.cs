@@ -190,6 +190,17 @@ public static class PracticeHelper
 
     }
 
+    public static void Print(this TreeNode treeNode)
+    {
+        if (treeNode == null)
+        {
+            Debug.Log("Null");
+            return;
+        }
+       
+        Debug.Log(treeNode.ToString());
+    }
+
     public static void Print<T1, T2>(this Dictionary<T1, T2> dictionary)
     {
         StringBuilder sb = new StringBuilder();
@@ -321,12 +332,28 @@ public class TreeNode
         right = null;
     }
 
+    public bool IsLeaf()
+    {
+        return this.left == null && this.right == null;
+    }
+
     public void SetLeftAndRight(TreeNode left, TreeNode right)
     {
         this.left = left;
         this.right = right;
     }
 
+    public override string ToString()
+    {
+
+        if (this.IsLeaf())
+            return this.value.ToString();
+
+        return string.Format(" {0} ( {1}, {2} ) ", this.value, this.left == null ? "Null" : this.left.ToString(),
+            this.right == null ? "Null" : this.right.ToString());
+
+
+    }
 }
 
 
