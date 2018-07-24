@@ -9,6 +9,40 @@ using UnityEngine;
 public static class PracticeHelper
 {
 
+    public static TreeNode ToTree(this List<int> list, int flag = Int32.MinValue)
+    {
+        if(list == null || list.Count <= 0)
+            return null;
+
+        int index = 0;
+        TreeNode res = new TreeNode(list[index++]);
+        
+
+        Queue<TreeNode> queue = new Queue<TreeNode>();
+        queue.Enqueue(res);
+
+        TreeNode node = null;
+        while (queue.Count > 0)
+        {
+            node = queue.Dequeue();
+            node.left = (index >= list.Count || list[index] == flag) ? null : new TreeNode(list[index]);
+            index++;
+
+            node.right = (index >= list.Count || list[index] == flag) ? null : new TreeNode(list[index]);
+            index++;
+
+            if(node.left != null)
+                queue.Enqueue(node.left);
+
+            if(node.right != null)
+                queue.Enqueue(node.right);
+
+        }
+
+        return res;
+
+    }
+
     public static ListNode ToListNodeWithCircle(this List<int> list, int index)
     {
         ListNode node = null;
