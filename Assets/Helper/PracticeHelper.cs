@@ -16,8 +16,8 @@ public static class PracticeHelper
 
         int index = 0;
         TreeNode res = new TreeNode(list[index++]);
+        res.SetParent(null);
         
-
         Queue<TreeNode> queue = new Queue<TreeNode>();
         queue.Enqueue(res);
 
@@ -31,11 +31,18 @@ public static class PracticeHelper
             node.right = (index >= list.Count || list[index] == flag) ? null : new TreeNode(list[index]);
             index++;
 
-            if(node.left != null)
+            if (node.left != null)
+            {
                 queue.Enqueue(node.left);
+                node.left.SetParent(node);
+            }
 
-            if(node.right != null)
+            if (node.right != null)
+            {
                 queue.Enqueue(node.right);
+                node.right.SetParent(node);
+            }
+
 
         }
 
@@ -224,7 +231,7 @@ public static class PracticeHelper
 
     }
 
-    public static void Print(this TreeNode treeNode)
+    public static void Print(this TreeNode treeNode, string flag = "")
     {
         if (treeNode == null)
         {
@@ -232,7 +239,7 @@ public static class PracticeHelper
             return;
         }
        
-        Debug.Log(treeNode.ToString());
+        Debug.Log(treeNode.ToString(flag));
     }
 
     public static void Print<T1, T2>(this Dictionary<T1, T2> dictionary)
@@ -353,6 +360,7 @@ public static class PracticeHelper
 
 #region 数据结构
 
+
 public class TreeNode
 {
     public int value;
@@ -377,17 +385,49 @@ public class TreeNode
         this.right = right;
     }
 
-    public override string ToString()
+    public string ToString(string flag = "")
     {
 
-        if (this.IsLeaf())
-            return this.value.ToString();
+        switch (flag)
+        {
+            case "p":
+            case "P":
+                if (this.IsLeaf())
+                    return string.Format(" {0}[{1}] ",
+                        this.value.ToString(),
+                        this.parent == null ? "Null" : this.parent.value.ToString());
 
-        return string.Format(" {0} ( {1}, {2} ) ", this.value, this.left == null ? "Null" : this.left.ToString(),
-            this.right == null ? "Null" : this.right.ToString());
+                return string.Format(" {0}[{1}] ( {2}, {3} ) ",
+                    this.value,
+                    this.parent == null ? "Null" : this.parent.value.ToString(),
+                    this.left == null ? "Null" : this.left.ToString(flag),
+                    this.right == null ? "Null" : this.right.ToString(flag));
 
+
+            default:
+
+                if (this.IsLeaf())
+                    return this.value.ToString();
+
+                return string.Format(" {0} ( {1}, {2} ) ", 
+                    this.value,
+                    this.left == null ? "Null" : this.left.ToString(),
+                    this.right == null ? "Null" : this.right.ToString());
+
+        }
+
+      
 
     }
+
+
+    public TreeNode parent;
+
+    public void SetParent(TreeNode parent)
+    {
+        this.parent = parent;
+    }
+
 }
 
 
